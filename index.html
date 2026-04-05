@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DealZone – Best Deals & Offers</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--accent:#FF5C1A;--dark:#111;--light:#FFF8F3;--card:#fff;--text:#222;--muted:#777}
+  body{font-family:'DM Sans',sans-serif;background:var(--light);color:var(--text);min-height:100vh}
+  nav{background:#111;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+  .logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;color:#fff;letter-spacing:-1px}
+  .logo span{color:var(--accent)}
+  nav a{color:#ccc;text-decoration:none;font-size:.9rem;margin-left:1.5rem;transition:color .2s}
+  nav a:hover{color:#fff}
+  .hero{background:#111;padding:5rem 2rem 4rem;text-align:center;position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,#FF5C1A22,transparent 70%);top:-100px;left:50%;transform:translateX(-50%);pointer-events:none}
+  .hero h1{font-family:'Syne',sans-serif;font-size:clamp(2.2rem,6vw,4rem);font-weight:800;color:#fff;line-height:1.1;margin-bottom:1rem}
+  .hero h1 em{color:var(--accent);font-style:normal}
+  .hero p{color:#aaa;font-size:1.1rem;max-width:500px;margin:0 auto 2rem}
+  .search-bar{display:flex;max-width:480px;margin:0 auto;background:#fff;border-radius:50px;overflow:hidden;box-shadow:0 0 40px #FF5C1A33}
+  .search-bar input{flex:1;border:none;padding:.9rem 1.5rem;font-family:'DM Sans',sans-serif;font-size:1rem;outline:none;background:transparent}
+  .search-bar button{background:var(--accent);border:none;color:#fff;padding:.9rem 1.8rem;cursor:pointer;font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;transition:background .2s}
+  .search-bar button:hover{background:#e84e10}
+  .categories{display:flex;gap:.6rem;padding:1.5rem 2rem;overflow-x:auto;scrollbar-width:none;background:#111;justify-content:center}
+  .categories::-webkit-scrollbar{display:none}
+  .cat-btn{background:#fff1;color:#ccc;border:1px solid #ffffff22;padding:.45rem 1.2rem;border-radius:50px;font-size:.85rem;cursor:pointer;white-space:nowrap;transition:all .2s;font-family:'DM Sans',sans-serif}
+  .cat-btn:hover,.cat-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .section{padding:3rem 2rem;max-width:1100px;margin:0 auto}
+  .section-title{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;margin-bottom:1.5rem;display:flex;align-items:center;gap:.6rem}
+  .badge{background:var(--accent);color:#fff;font-size:.7rem;padding:.2rem .6rem;border-radius:50px;font-family:'DM Sans',sans-serif;font-weight:500}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem}
+  .card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 20px rgba(0,0,0,.07);transition:transform .2s,box-shadow .2s;border:1px solid #f0e8e0}
+  .card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,.12)}
+  .card-img{width:100%;height:160px;object-fit:cover;display:flex;align-items:center;justify-content:center;font-size:3rem;background:#f9f4f0}
+  .card-body{padding:1rem}
+  .tag{font-size:.72rem;color:var(--accent);font-weight:500;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.3rem}
+  .card-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:.4rem;line-height:1.3}
+  .card-desc{font-size:.85rem;color:var(--muted);margin-bottom:.8rem;line-height:1.5}
+  .price-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.9rem}
+  .price{font-size:1.2rem;font-weight:700;color:var(--text)}
+  .old-price{font-size:.85rem;color:#bbb;text-decoration:line-through}
+  .discount{background:#fff0eb;color:var(--accent);font-size:.75rem;padding:.2rem .5rem;border-radius:6px;font-weight:500}
+  .cta-btn{display:block;width:100%;text-align:center;background:var(--dark);color:#fff;padding:.75rem;border-radius:10px;text-decoration:none;font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;transition:background .2s}
+  .cta-btn:hover{background:var(--accent)}
+  .whatsapp-bar{background:linear-gradient(135deg,#25D366,#128C7E);padding:2rem;text-align:center;color:#fff;margin:1rem 0}
+  .whatsapp-bar h2{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:.5rem}
+  .whatsapp-bar p{opacity:.9;margin-bottom:1.2rem;font-size:.95rem}
+  .wa-btn{display:inline-block;background:#fff;color:#128C7E;padding:.7rem 2rem;border-radius:50px;font-family:'Syne',sans-serif;font-weight:700;text-decoration:none;font-size:.95rem;transition:transform .2s}
+  .wa-btn:hover{transform:scale(1.05)}
+  footer{background:#111;color:#666;text-align:center;padding:2rem;font-size:.85rem}
+  footer span{color:var(--accent)}
+  @media(max-width:600px){.hero h1{font-size:2rem}.grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Deal<span>Zone</span></div>
+  <div>
+    <a href="#">Home</a>
+    <a href="#">Deals</a>
+    <a href="#">Tech</a>
+    <a href="#">Fashion</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>Find the <em>Best Deals</em><br>Save Every Day</h1>
+  <p>Curated affiliate deals across tech, fashion, home & more — updated daily.</p>
+  <div class="search-bar">
+    <input type="text" placeholder="Search deals...">
+    <button>Search</button>
+  </div>
+</div>
+
+<div class="categories">
+  <button class="cat-btn active">All Deals</button>
+  <button class="cat-btn">Tech & Gadgets</button>
+  <button class="cat-btn">Fashion</button>
+  <button class="cat-btn">Home & Kitchen</button>
+  <button class="cat-btn">Beauty</button>
+  <button class="cat-btn">Sports</button>
+  <button class="cat-btn">Travel</button>
+</div>
+
+<div class="section">
+  <div class="section-title">🔥 Hot Deals <span class="badge">Live Now</span></div>
+  <div class="grid" id="deals-grid"></div>
+</div>
+
+<div class="whatsapp-bar">
+  <h2>💬 Join Our WhatsApp Deal Group</h2>
+  <p>Get instant alerts when new deals drop — directly in WhatsApp!</p>
+  <a class="wa-btn" href="https://wa.me/?text=Add+me+to+the+deals+group" target="_blank">Join Free Group →</a>
+</div>
+
+<div class="section">
+  <div class="section-title">⚡ Flash Deals</div>
+  <div class="grid" id="flash-grid"></div>
+</div>
+
+<footer>
+  Built with ❤️ · <span>DealZone</span> · Affiliate links may earn a commission
+</footer>
+
+<script>
+const deals = [
+  {tag:'Tech',title:'Wireless Earbuds Pro',desc:'ANC, 30hr battery, premium sound quality.',price:'$49',old:'$99',discount:'50% OFF',link:'#your-amazon-link',emoji:'🎧'},
+  {tag:'Fashion',title:'Premium Sneakers',desc:'Comfortable, stylish, available in 10 colors.',price:'$59',old:'$120',discount:'51% OFF',link:'#your-affiliate-link',emoji:'👟'},
+  {tag:'Home',title:'Smart LED Strip',desc:'16M colors, app-controlled, 5m length.',price:'$19',old:'$45',discount:'58% OFF',link:'#your-affiliate-link',emoji:'💡'},
+  {tag:'Beauty',title:'Vitamin C Serum',desc:'Brightening, anti-aging, dermatologist tested.',price:'$22',old:'$50',discount:'56% OFF',link:'#your-affiliate-link',emoji:'✨'},
+  {tag:'Tech',title:'Portable Power Bank',desc:'20,000mAh, fast charging, dual USB-C.',price:'$35',old:'$70',discount:'50% OFF',link:'#your-affiliate-link',emoji:'🔋'},
+  {tag:'Home',title:'Air Purifier Mini',desc:'HEPA filter, ultra-quiet, covers 300 sq ft.',price:'$45',old:'$89',discount:'49% OFF',link:'#your-affiliate-link',emoji:'🌬️'},
+];
+
+const flash = [
+  {tag:'Limited',title:'Running Watch',desc:'GPS, heart rate, sleep tracking built-in.',price:'$79',old:'$180',discount:'56% OFF',link:'#your-affiliate-link',emoji:'⌚'},
+  {tag:'Flash',title:'Laptop Stand',desc:'Ergonomic, adjustable, foldable design.',price:'$25',old:'$55',discount:'55% OFF',link:'#your-affiliate-link',emoji:'💻'},
+  {tag:'Flash',title:'Coffee Maker',desc:'Brews in 3 mins, 12-cup, programmable.',price:'$39',old:'$80',discount:'51% OFF',link:'#your-affiliate-link',emoji:'☕'},
+];
+
+function renderCards(data, containerId) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = data.map(d => `
+    <div class="card">
+      <div class="card-img">${d.emoji}</div>
+      <div class="card-body">
+        <div class="tag">${d.tag}</div>
+        <div class="card-title">${d.title}</div>
+        <div class="card-desc">${d.desc}</div>
+        <div class="price-row">
+          <span class="price">${d.price}</span>
+          <span class="old-price">${d.old}</span>
+          <span class="discount">${d.discount}</span>
+        </div>
+        <a class="cta-btn" href="${d.link}" target="_blank">Get Deal →</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+renderCards(deals, 'deals-grid');
+renderCards(flash, 'flash-grid');
+
+document.querySelectorAll('.cat-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
